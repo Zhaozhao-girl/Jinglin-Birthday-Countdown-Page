@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 动态标题，初始默认显示“提前祝”，生日周内由JS更改 -->
     <title id="page-title">提前祝靖琳生日快乐 - Zhaozhao</title>
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
@@ -29,14 +30,14 @@
         /* ---------------- 左侧祝福语区域 ---------------- */
         .left-content {
             flex: 1;
-            padding: 6% 8%; /* 稍微减小上下内边距，容纳更多文字 */
+            padding: 10% 8%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             z-index: 10;
         }
 
-        /* 倒计时期间的动态祝福语段落样式 */
+        /* 非生日周的动态祝福语段落样式 */
         .paragraph {
             margin-bottom: 25px;
             line-height: 1.8;
@@ -53,6 +54,7 @@
             cursor: pointer;
         }
 
+        /* 非生日周的动态祝福语出现节奏 */
         .p1 { animation-delay: 0.5s; }
         .p2 { animation-delay: 3.0s; }
         .p3 { animation-delay: 5.5s; }
@@ -63,42 +65,29 @@
             margin-top: 10px;
         }
 
-        /* --- 全新的生日长文样式 --- */
+        /* 生日周的专属祝福语容器 */
         .birthday-message-static {
-            display: none; 
-            flex-direction: column;
-        }
-        
-        .birthday-message-static p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-            font-size: 16px; /* 字号微调，使长文排版更优雅 */
+            display: none; /* 默认隐藏，由JS在生日周内显示 */
             opacity: 0;
-            animation: fadeIn 2.5s ease-in-out forwards;
-            transition: transform 0.4s ease, color 0.4s ease;
+            animation: fadeIn 2s ease-in-out forwards;
+            animation-delay: 0.5s; /* 稍微延迟一下出现 */
         }
-
-        .birthday-message-static p:hover {
-            transform: translateX(10px);
+        .birthday-message-static p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+        .birthday-message-static .final-greeting {
+            display: block;
+            margin-top: 25px;
+            font-weight: bold;
             color: #C2185B;
-            cursor: pointer;
         }
 
-        /* 生日长文依次浮现的时间轴 */
-        .b-p1 { animation-delay: 0.5s; }
-        .b-p2 { animation-delay: 3.0s; }
-        .b-p3 { animation-delay: 6.0s; }
-        .b-p4 { animation-delay: 9.0s; }
-        .b-p5 { 
-            animation-delay: 12.0s; 
-            margin-top: 15px;
-            border-top: 1px solid rgba(194, 24, 91, 0.2);
-            padding-top: 15px;
-        }
 
-        .highlight { color: #D81B60; font-weight: bold; position: relative; }
+        .highlight { color: #D81B60; font-weight: bold; }
 
-        /* ---------------- 右侧区域 ---------------- */
+        /* ---------------- 右侧爱心与倒计时/生日祝福区域 ---------------- */
         .right-content {
             flex: 1.5;
             display: flex;
@@ -121,6 +110,7 @@
             animation: pulse 5s infinite alternate ease-in-out;
         }
 
+        /* 倒计时样式 */
         .countdown-title {
             font-size: 24px;
             color: #5A3535;
@@ -147,6 +137,7 @@
 
         .unit { font-size: 16px; margin-right: 15px; font-weight: bold; }
 
+        /* 生日周的祝福语样式 */
         .bday-message-display {
             text-align: center; 
             animation: fadeIn 1s;
@@ -178,6 +169,7 @@
             z-index: 10;
         }
 
+        /* ---------------- 动画特效区 ---------------- */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -188,6 +180,7 @@
             100% { transform: scale(1.02); opacity: 1; }
         }
 
+        /* 花瓣飘落 */
         .petal {
             position: absolute;
             border-radius: 15px 0 15px 0;
@@ -217,6 +210,7 @@
             100% { transform: translateY(-80px) scale(1) rotate(-15deg); opacity: 0; }
         }
 
+        /* ---------------- 动态诗句专属样式 ---------------- */
         .dynamic-poem {
             position: absolute;
             font-size: 15px;
@@ -241,7 +235,7 @@
 
     <!-- 左侧文案区 -->
     <div class="left-content">
-        <!-- 倒计时期间显示的简短祝福 -->
+        <!-- 平时显示的祝福语 -->
         <div id="normal-greeting-content">
             <div class="paragraph p1">
                 时间过得真快<br>
@@ -266,43 +260,32 @@
             </div>
         </div>
 
-        <!-- 生日周内显示的诗意长文 -->
+        <!-- 生日周内显示的祝福语 -->
         <div id="birthday-greeting-content" class="birthday-message-static">
-            <p class="b-p1">
-                靖琳，<span class="highlight">生日快乐。</span><br>
-                人间四月，春意正盛，终于迎来了属于你的这一天。<br>
-                愿所有的美好与温柔，都如期而至，化作此刻拂过你发梢的微风。
+            <p>
+                嘿，靖琳！<br>
+                终于等到了这一天，<span class="highlight">生日快乐！</span><br>
+                所有的祝福与期盼，都化作此刻的暖阳。
             </p>
-            <p class="b-p2">
-                时光宛如白驹过隙，七年级初识时的青涩仿佛还在昨日。<br>
-                转眼间，我们已各自在书山题海中，为了心中的远方跋涉。<br>
-                纵然相隔于不同的校园，但那些共同走过的岁月，<br>
-                早已成为我记忆中<span class="highlight">最明媚的星轨</span>，熠熠生辉。
+            <p>
+                回首相识的时光，感谢有你。<br>
+                展望未来，愿你像破茧成蝶般勇敢，<br>
+                在学业与生活中，<span class="highlight">闪耀属于自己的光芒。</span>
             </p>
-            <p class="b-p3">
-                这崭新的一岁，是晨光熹微，是最热烈也最清澈的年华。<br>
-                愿你在繁重的学业里，依然有仰望星空的诗意，和脚踏实地的坚定。<br>
-                愿你像一只不知疲倦的飞鸟，勇敢地越过重重山峦，<br>
-                飞向那片你一直渴望的、<span class="highlight">广阔无垠的旷野</span>。
+            <p>
+                希望这一年，你所求皆如愿，所行化坦途。<br>
+                每一天都充满欢声笑语，每一步都踏实坚定。<br>
+                当然，别忘了还有我，<span class="highlight">期待我们顶峰相见！</span>
             </p>
-            <p class="b-p4">
-                岁月漫长，愿你始终做自己宇宙里的主宰。<br>
-                不为世俗所扰，不被烦恼牵绊，岁岁常欢愉，万事皆胜意。<br>
-                无论前路是坦途还是荆棘，我都会在不远处为你祝祷。<br>
-                带着你的梦想与骄傲，继续奔跑吧——
-            </p>
-            <p class="b-p5">
-                我们约定好了的，<br>
-                要在最耀眼的<span class="highlight">理想大学的顶峰，微笑相见。</span><br>
-                <span style="display:block; margin-top: 12px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span>
-            </p>
+            <span class="final-greeting">-- 挚爱你的：Zhaozhao</span>
         </div>
     </div>
 
-    <!-- 右侧动态时间区 -->
+    <!-- 右侧倒计时区 -->
     <div class="right-content">
         <div class="heart-container">
             <div id="dynamic-time-content">
+                <!-- 这里会由JS根据日期插入倒计时或生日祝福 -->
                 <div class="countdown-title" id="title-text">计算中...</div>
                 <div class="countdown-box" id="countdown-display"></div>
             </div>
@@ -315,7 +298,7 @@
     </div>
 
     <script>
-        // --- 1. 智能倒计时逻辑 ---
+        // --- 1. 智能倒计时逻辑（核心修改） ---
         function updateCountdown() {
             const now = new Date();
             const currentYear = now.getFullYear();
@@ -347,11 +330,15 @@
 
             if (isBirthdayWeek) {
                 const age = currentYear - birthYear;
+                // 更新页面标题
                 pageTitleEl.innerText = "靖琳生日快乐！ - Zhaozhao";
-                normalGreetingDiv.style.display = 'none';
-                birthdayGreetingDiv.style.display = 'flex'; 
 
-                titleEl.innerHTML = ""; 
+                // 显示生日专属祝福语，隐藏非生日祝福语
+                normalGreetingDiv.style.display = 'none';
+                birthdayGreetingDiv.style.display = 'flex'; // 使用flex以便内部p标签可以垂直排列
+
+                // 右侧显示生日祝福信息，不显示倒计时
+                titleEl.innerHTML = ""; // 清空标题
                 displayEl.innerHTML = `
                     <div class="bday-message-display">
                         <div class="bday-message-main">
@@ -360,10 +347,14 @@
                         <div class="bday-message-sub">祝你生日快乐~ 愿你岁岁常欢愉！</div>
                     </div>`;
             } else {
+                // 更新页面标题
                 pageTitleEl.innerText = "提前祝靖琳生日快乐 - Zhaozhao";
-                normalGreetingDiv.style.display = 'flex'; 
+
+                // 显示非生日祝福语，隐藏生日专属祝福语
+                normalGreetingDiv.style.display = 'flex'; // 使用flex以便内部p标签可以垂直排列
                 birthdayGreetingDiv.style.display = 'none';
 
+                // 右侧显示倒计时
                 const distance = targetDate - currentTime;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -380,7 +371,7 @@
             }
         }
         setInterval(updateCountdown, 1000);
-        updateCountdown(); 
+        updateCountdown(); // 立即执行一次，防止页面闪烁
 
         // --- 2. 樱花飘落 ---
         function createPetal() {
@@ -415,7 +406,7 @@
             setTimeout(() => { magicElement.remove(); }, 1200);
         });
 
-        // --- 4. 诗意话语随机淡入淡出 ---
+        // --- 4. 诗意话语随机淡入淡出引擎（防左侧拥挤算法） ---
         const poems = [
             "朝暮与年岁并往，愿与你一同行至天光",
             "星光不问赶路人，时光不负有心人",
@@ -436,12 +427,12 @@
         ];
 
         const safeZones = [
-            { id: 0, type: 'left',  pos: '5%',   top: '10%' },  
-            { id: 1, type: 'left',  pos: '5%',   top: '55%' },  
-            { id: 2, type: 'right', pos: '5%',   top: '10%' },  
-            { id: 3, type: 'right', pos: '5%',   top: '60%' },  
-            { id: 4, type: 'left',  pos: '38%',  top: '5%' },   
-            { id: 5, type: 'right', pos: '38%',  top: '80%' }   
+            { id: 0, type: 'left',  pos: '5%',   top: '10%' },  // 0: 左上
+            { id: 1, type: 'left',  pos: '5%',   top: '55%' },  // 1: 左下
+            { id: 2, type: 'right', pos: '5%',   top: '10%' },  // 2: 右上
+            { id: 3, type: 'right', pos: '5%',   top: '60%' },  // 3: 右下
+            { id: 4, type: 'left',  pos: '38%',  top: '5%' },   // 4: 中上
+            { id: 5, type: 'right', pos: '38%',  top: '80%' }   // 5: 中下
         ];
 
         let activePoems = [];
