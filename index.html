@@ -2,14 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="page-title">提前祝靖琳生日快乐 - Zhaozhao</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        html { scroll-behavior: smooth; } /* 全局丝滑滚动 */
+        html { scroll-behavior: smooth; }
 
         body {
             margin: 0; padding: 0;
@@ -17,34 +17,31 @@
             background-image: radial-gradient(circle at 80% 20%, #FFE0E5 0%, transparent 50%), radial-gradient(circle at 20% 80%, #FFF0D4 0%, transparent 50%);
             font-family: 'Noto Serif SC', serif;
             color: #4A2525;
+            display: flex; flex-direction: row; 
+            height: 100vh; width: 100vw;
             overflow-x: hidden;
-            display: flex; flex-direction: row; height: 100vh;
         }
 
         /* ---------------- 文字区域 ---------------- */
         .left-content {
-            flex: 1; padding: 8% 8%;
+            flex: 1; padding: 5% 8%;
             display: flex; flex-direction: column; justify-content: center; z-index: 10;
         }
 
         .paragraph, .b-paragraph {
-            margin-bottom: 30px; line-height: 1.8; font-size: 17px; opacity: 0;
+            margin-bottom: 35px; line-height: 1.8; font-size: 17px; opacity: 0;
             animation: fadeIn 2s ease-in-out forwards;
+            position: relative;
         }
 
-        /* 倒计时模式节奏 */
-        #p1 { animation-delay: 0.5s; }
-        #p2 { animation-delay: 3.0s; }
-        #p3 { animation-delay: 5.5s; }
-        #p4 { animation-delay: 8.0s; border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; margin-top: 10px; }
+        /* 动画延迟时间 */
+        #p1, #b1 { animation-delay: 0.5s; }
+        #p2, #b2 { animation-delay: 3.5s; }
+        #p3, #b3 { animation-delay: 6.5s; }
+        #p4, #b4 { animation-delay: 9.5s; }
+        #b5 { animation-delay: 12.5s; }
 
-        /* 生日模式长文节奏 */
-        #b1 { animation-delay: 0.5s; }
-        #b2 { animation-delay: 3.5s; }
-        #b3 { animation-delay: 6.5s; }
-        #b4 { animation-delay: 9.5s; }
-        #b5 { animation-delay: 12.5s; border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; }
-
+        .line-sep { border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; margin-top: 10px; }
         .highlight { color: #D81B60; font-weight: bold; }
 
         /* ---------------- 右侧区域 ---------------- */
@@ -53,25 +50,40 @@
         }
 
         .heart-container {
-            position: relative; width: 550px; height: 550px;
+            position: relative; width: 500px; height: 500px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             background: radial-gradient(circle, rgba(255,182,193,0.5) 0%, rgba(255,240,245,0) 65%);
             border-radius: 50%; animation: pulse 5s infinite alternate ease-in-out; text-align: center;
         }
 
-        .countdown-title { font-size: 24px; color: #5A3535; margin-bottom: 20px; font-weight: bold; }
-        .number { font-size: 52px; font-weight: bold; color: #C2185B; font-family: 'Courier New', monospace; }
-        .unit { font-size: 16px; margin-right: 15px; font-weight: bold; }
+        .countdown-title { font-size: 22px; color: #5A3535; margin-bottom: 20px; font-weight: bold; }
+        .number { font-size: 48px; font-weight: bold; color: #C2185B; font-family: 'Courier New', monospace; }
+        .unit { font-size: 14px; margin-right: 10px; font-weight: bold; }
 
-        /* ---------------- 手机端适配 ---------------- */
+        /* ---------------- 手机端专项修复 ---------------- */
         @media (max-width: 768px) {
-            body { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
-            .left-content { padding: 80px 15% 40px 15%; text-align: center; }
-            .right-content { padding-bottom: 120px; width: 100%; }
-            .heart-container { width: 92vw; height: 92vw; }
-            .number { font-size: 38px; }
-            .paragraph, .b-paragraph { font-size: 15px; margin-bottom: 40px; }
-            .dynamic-poem { font-size: 13px !important; opacity: 0.3 !important; }
+            body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: scroll; }
+            .left-content { 
+                flex: none; width: 100%; 
+                padding: 120px 12% 60px 12%; 
+                min-height: 95vh; 
+                text-align: center; 
+            }
+            .right-content { 
+                flex: none; width: 100%; 
+                min-height: 105vh; /* 撑开高度，确保倒计时在中间时，底部有足够空间不让页脚跳上来 */
+                padding: 40px 0;
+            }
+            .heart-container { width: 85vw; height: 85vw; margin: 0 auto; }
+            .number { font-size: 32px; }
+            .countdown-title { font-size: 18px; }
+            .paragraph, .b-paragraph { font-size: 15px; margin-bottom: 45px; }
+
+            .dynamic-poem { 
+                font-size: 12px !important; 
+                color: rgba(194, 24, 91, 0.12) !important; 
+                z-index: 1 !important; 
+            }
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -83,30 +95,30 @@
         .click-magic { position: absolute; font-size: 24px; pointer-events: none; z-index: 9999; animation: floatUp 1.2s forwards; }
         @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-80px) scale(1); opacity: 0; } }
 
-        .dynamic-poem { position: absolute; font-size: 15px; color: rgba(194, 24, 91, 0.45); writing-mode: vertical-rl; letter-spacing: 4px; z-index: 5; animation: poemFade 7s forwards; }
+        .dynamic-poem { position: absolute; font-size: 15px; color: rgba(194, 24, 91, 0.4); writing-mode: vertical-rl; letter-spacing: 4px; z-index: 5; animation: poemFade 7s forwards; }
         @keyframes poemFade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
-        .footer { position: fixed; bottom: 15px; width: 100%; text-align: center; font-size: 11px; color: #A98B8B; z-index: 10; }
+        .footer { width: 100%; text-align: center; font-size: 11px; color: #A98B8B; padding: 40px 0; z-index: 20; position: relative; }
     </style>
 </head>
 <body>
 
     <div class="left-content">
-        <!-- 倒计时阶段 -->
+        <!-- 倒计时模式 -->
         <div id="normal-greeting">
             <div class="paragraph" id="p1">时间过得真快<br>转眼间，我们已经认识很久了<br>还记得<span class="highlight">七年级初识</span>时的模样</div>
             <div class="paragraph" id="p2">如今我们在不同的高中<br>各自在书山题海中<span class="highlight">努力奔跑</span><br>虽然距离远了，但这份情谊历久弥新</div>
             <div class="paragraph" id="p3">靖琳，提前祝你生日快乐！<br>愿你新的一岁：<br><span class="highlight">身体安康，平安喜乐</span><br><span class="highlight">学业顺利，逢考必过</span></div>
-            <div class="paragraph" id="p4">最重要的是...<br>期待我们在<span class="highlight">理想大学的顶峰相见！</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
+            <div class="paragraph line-sep" id="p4">最重要的是...<br>期待我们在<span class="highlight">理想大学的顶峰相见！</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
         </div>
 
-        <!-- 生日阶段 -->
+        <!-- 生日模式 -->
         <div id="birthday-greeting" style="display: none;">
             <div class="b-paragraph" id="b1">靖琳，<span class="highlight">生日快乐。</span><br>人间四月，春意正盛，终于迎来了属于你的这一天。愿所有的温柔都如期而至，化作此刻拂过你发梢的微风。</div>
             <div class="b-paragraph" id="b2">时光宛如白驹过隙，七年级初识时的青涩仿佛还在昨日。转眼间，我们已各自在书山题海中跋涉。纵然相隔，但那些共同走过的岁月，早已成为我记忆中<span class="highlight">最明媚的星轨</span>。</div>
             <div class="b-paragraph" id="b3">这崭新的一岁，是晨光熹微，是最清澈的年华。愿你在繁重的学业里，依然有仰望星空的诗意。愿你像一只不知疲倦的飞鸟，飞向那片你一直渴望的、<span class="highlight">广阔无垠的旷野</span>。</div>
             <div class="b-paragraph" id="b4">岁月漫长，愿你始终做自己宇宙里的主宰。不为世俗所扰，不被烦恼牵绊，岁岁常欢愉。无论前路是坦途还是荆棘，我都会在不远处为你祝祷。</div>
-            <div class="b-paragraph" id="b5">我们约定好了的，要在最耀眼的<span class="highlight">理想大学的顶峰，微笑相见。</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
+            <div class="b-paragraph line-sep" id="b5">我们约定好了的，要在最耀眼的<span class="highlight">理想大学的顶峰，微笑相见。</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
         </div>
     </div>
 
@@ -120,7 +132,7 @@
     <div class="footer">Made with Love by Zhaozhao for Jinglin</div>
 
     <script>
-        let hasScrolled = false;
+        let autoScrollTasks = []; // 用来存储所有的延时任务
 
         function update() {
             const now = new Date();
@@ -136,17 +148,15 @@
             document.getElementById('normal-greeting').style.display = isBday ? 'none' : 'block';
             document.getElementById('birthday-greeting').style.display = isBday ? 'block' : 'none';
 
-            // 首次加载触发手机端自动滚动
-            if (!hasScrolled) {
+            if (autoScrollTasks.length === 0) {
                 handleAutoScroll(isBday);
-                hasScrolled = true;
             }
 
             if (isBday) {
                 document.getElementById('title-text').innerText = "";
                 document.getElementById('countdown-display').innerHTML = `
                     <div style="text-align: center; animation: fadeIn 1s;">
-                        <div style="font-size: 26px; color:#C2185B; font-weight:bold; margin-bottom: 15px;">🎉 靖琳<span style="font-size:40px; margin: 0 8px; font-family: 'Courier New';">${year - 2010}</span>岁了哦！ 🎉</div>
+                        <div style="font-size: 24px; color:#C2185B; font-weight:bold; margin-bottom: 15px;">🎉 靖琳<span style="font-size:38px; margin: 0 8px; font-family: 'Courier New';">${year - 2010}</span>岁了哦！ 🎉</div>
                         <div style="font-size: 18px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
                     </div>`;
             } else {
@@ -163,27 +173,29 @@
             }
         }
 
-        // --- 手机端自动滚动逻辑 ---
         function handleAutoScroll(isBday) {
-            if (window.innerWidth >= 768) return; // 电脑端不滚动
-
-            const schedule = isBday 
-                ? [ { id: 'b1', time: 500 }, { id: 'b2', time: 3500 }, { id: 'b3', time: 6500 }, { id: 'b4', time: 9500 }, { id: 'b5', time: 12500 }, { id: 'heart-area', time: 15000 } ]
-                : [ { id: 'p1', time: 500 }, { id: 'p2', time: 3000 }, { id: 'p3', time: 5500 }, { id: 'p4', time: 8000 }, { id: 'heart-area', time: 10500 } ];
-
-            schedule.forEach(item => {
-                setTimeout(() => {
-                    const el = document.getElementById(item.id);
+            if (window.innerWidth >= 768) return;
+            const steps = isBday 
+                ? [ {id:'b1',t:500},{id:'b2',t:3500},{id:'b3',t:6500},{id:'b4',t:9500},{id:'b5',t:12500},{id:'heart-area',t:15500} ]
+                : [ {id:'p1',t:500},{id:'p2',t:3500},{id:'p3',t:6500},{id:'p4',t:9500},{id:'heart-area',t:12500} ];
+            
+            steps.forEach(s => {
+                let task = setTimeout(() => {
+                    const el = document.getElementById(s.id);
                     if (el) {
                         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-                }, item.time);
+                    // 如果滚动到了倒计时区域，强制停止所有后续可能的滚动任务
+                    if (s.id === 'heart-area') {
+                        autoScrollTasks.forEach(clearTimeout);
+                    }
+                }, s.t);
+                autoScrollTasks.push(task);
             });
         }
 
         setInterval(update, 1000); update();
 
-        // 装饰性元素逻辑 (保持上一版)
         function petal() {
             const p = document.createElement('div'); p.className = 'petal';
             const s = Math.random() * 10 + 5; 
@@ -191,16 +203,15 @@
             p.style.setProperty('--sway-x', (Math.random() - 0.5) * 200 + 'px');
             document.body.appendChild(p); setTimeout(() => p.remove(), 8000);
         }
-        setInterval(petal, 350);
+        setInterval(petal, 400);
 
-        const poems = ["星光不问赶路人", "凡是过去，皆为序章", "且将新火试新茶", "心之所向，素履以往", "以梦为马，不负韶华", "朝暮与年岁并往", "遍历山河，人间值得"];
+        const poems = ["星河滚烫，你是人间理想", "落日归山海，山海藏深意", "星光不问赶路人", "凡是过去，皆为序章", "以梦为马，不负韶华", "朝暮与年岁并往", "遍历山河，人间值得"];
         function spawnPoem() {
             const p = document.createElement('div'); p.className = 'dynamic-poem';
             p.innerText = poems[Math.floor(Math.random() * poems.length)];
             const side = Math.random() > 0.5;
             if (window.innerWidth < 768) {
-                const safePos = side ? (Math.random() * 5 + 3) : (92 - Math.random() * 5);
-                p.style.left = safePos + '%';
+                p.style.left = side ? '2%' : '90%';
             } else {
                 Object.assign(p.style, { [side ? 'left' : 'right']: '5%' });
             }
