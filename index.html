@@ -3,402 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提前祝靖琳生日快乐 - Zhaozhao</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title id="page-title">提前祝靖琳生日快乐 - Zhaozhao</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
     <style>
-        /* 全局样式 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
-        
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; } /* 全局丝滑滚动 */
+
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #FFF5F7; 
-            background-image: 
-                radial-gradient(circle at 80% 20%, #FFE0E5 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, #FFF0D4 0%, transparent 50%);
+            background-image: radial-gradient(circle at 80% 20%, #FFE0E5 0%, transparent 50%), radial-gradient(circle at 20% 80%, #FFF0D4 0%, transparent 50%);
             font-family: 'Noto Serif SC', serif;
             color: #4A2525;
-            overflow: hidden;
-            display: flex;
-            height: 100vh;
-            cursor: default;
+            overflow-x: hidden;
+            display: flex; flex-direction: row; height: 100vh;
         }
 
-        /* ---------------- 左侧文字区域 ---------------- */
+        /* ---------------- 文字区域 ---------------- */
         .left-content {
-            flex: 1;
-            padding: 10% 8%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 10;
+            flex: 1; padding: 8% 8%;
+            display: flex; flex-direction: column; justify-content: center; z-index: 10;
         }
 
-        .paragraph {
-            margin-bottom: 25px;
-            line-height: 1.8;
-            font-size: 17px;
-            opacity: 0;
-            /* 淡入动画缩短至2秒，浮现得更干脆 */
+        .paragraph, .b-paragraph {
+            margin-bottom: 30px; line-height: 1.8; font-size: 17px; opacity: 0;
             animation: fadeIn 2s ease-in-out forwards;
-            transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
         }
 
-        .paragraph:hover {
-            transform: translateX(15px) scale(1.02);
-            color: #C2185B;
-            text-shadow: 2px 2px 10px rgba(194, 24, 91, 0.15);
-            cursor: pointer;
-        }
+        /* 倒计时模式节奏 */
+        #p1 { animation-delay: 0.5s; }
+        #p2 { animation-delay: 3.0s; }
+        #p3 { animation-delay: 5.5s; }
+        #p4 { animation-delay: 8.0s; border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; margin-top: 10px; }
 
-        /* --- 核心修改：大幅缩短出现间隔时间，每段间隔 2.5 秒 --- */
-        .p1 { animation-delay: 0.5s; }   /* 打开网页瞬间开始出第一段 */
-        .p2 { animation-delay: 3.0s; }   /* 距离上一段 2.5秒 */
-        .p3 { animation-delay: 5.5s; }   /* 距离上一段 2.5秒 */
-        .p4 { 
-            animation-delay: 8.0s;       /* 距离上一段 2.5秒，压轴出现 */
-            border-top: 1px solid rgba(194, 24, 91, 0.2); 
-            padding-top: 15px; 
-            margin-top: 10px;
-        }
+        /* 生日模式长文节奏 */
+        #b1 { animation-delay: 0.5s; }
+        #b2 { animation-delay: 3.5s; }
+        #b3 { animation-delay: 6.5s; }
+        #b4 { animation-delay: 9.5s; }
+        #b5 { animation-delay: 12.5s; border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; }
 
         .highlight { color: #D81B60; font-weight: bold; }
 
-        /* ---------------- 右侧爱心倒计时区域 ---------------- */
+        /* ---------------- 右侧区域 ---------------- */
         .right-content {
-            flex: 1.5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            z-index: 10;
+            flex: 1.2; display: flex; align-items: center; justify-content: center; z-index: 10;
         }
 
         .heart-container {
-            position: relative;
-            width: 600px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, rgba(255,182,193,0.6) 0%, rgba(255,240,245,0) 60%);
-            border-radius: 50%;
-            animation: pulse 5s infinite alternate ease-in-out;
+            position: relative; width: 550px; height: 550px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, rgba(255,182,193,0.5) 0%, rgba(255,240,245,0) 65%);
+            border-radius: 50%; animation: pulse 5s infinite alternate ease-in-out; text-align: center;
         }
 
-        .countdown-title {
-            font-size: 24px;
-            color: #5A3535;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-
-        .countdown-box {
-            font-size: 22px;
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            color: #7A4B4B;
-        }
-
-        .number {
-            font-size: 52px;
-            font-weight: bold;
-            color: #C2185B;
-            font-family: 'Courier New', Courier, monospace;
-            text-shadow: 1px 1px 3px rgba(194, 24, 91, 0.1);
-        }
-
+        .countdown-title { font-size: 24px; color: #5A3535; margin-bottom: 20px; font-weight: bold; }
+        .number { font-size: 52px; font-weight: bold; color: #C2185B; font-family: 'Courier New', monospace; }
         .unit { font-size: 16px; margin-right: 15px; font-weight: bold; }
 
-        .footer {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            color: #A98B8B;
-            z-index: 10;
+        /* ---------------- 手机端适配 ---------------- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
+            .left-content { padding: 80px 15% 40px 15%; text-align: center; }
+            .right-content { padding-bottom: 120px; width: 100%; }
+            .heart-container { width: 92vw; height: 92vw; }
+            .number { font-size: 38px; }
+            .paragraph, .b-paragraph { font-size: 15px; margin-bottom: 40px; }
+            .dynamic-poem { font-size: 13px !important; opacity: 0.3 !important; }
         }
 
-        /* ---------------- 动画特效区 ---------------- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(0.98); } 100% { transform: scale(1.02); } }
 
-        @keyframes pulse {
-            0% { transform: scale(0.98); opacity: 0.9; }
-            100% { transform: scale(1.02); opacity: 1; }
-        }
+        .petal { position: absolute; border-radius: 15px 0 15px 0; pointer-events: none; z-index: 1; animation: fall linear infinite; }
+        @keyframes fall { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 15% { opacity: 0.8; } 100% { transform: translate(var(--sway-x), 110vh) rotate(360deg); opacity: 0; } }
 
-        /* 花瓣飘落 */
-        .petal {
-            position: absolute;
-            border-radius: 15px 0 15px 0;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear infinite;
-        }
+        .click-magic { position: absolute; font-size: 24px; pointer-events: none; z-index: 9999; animation: floatUp 1.2s forwards; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-80px) scale(1); opacity: 0; } }
 
-        @keyframes fall {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            15% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translate(var(--sway-x), 110vh) rotate(360deg); opacity: 0; }
-        }
+        .dynamic-poem { position: absolute; font-size: 15px; color: rgba(194, 24, 91, 0.45); writing-mode: vertical-rl; letter-spacing: 4px; z-index: 5; animation: poemFade 7s forwards; }
+        @keyframes poemFade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
-        .click-magic {
-            position: absolute;
-            font-size: 24px;
-            pointer-events: none;
-            z-index: 9999;
-            animation: floatUp 1.2s ease-out forwards;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-40px) scale(1.2) rotate(15deg); opacity: 0.8; }
-            100% { transform: translateY(-80px) scale(1) rotate(-15deg); opacity: 0; }
-        }
-
-        /* ---------------- 动态诗句专属样式 ---------------- */
-        .dynamic-poem {
-            position: absolute;
-            font-size: 15px;
-            color: rgba(194, 24, 91, 0.45); 
-            letter-spacing: 4px;
-            writing-mode: vertical-rl; 
-            z-index: 5;
-            user-select: none;
-            pointer-events: none;
-            animation: poemFadeInOut 7s forwards; 
-        }
-
-        @keyframes poemFadeInOut {
-            0%   { opacity: 0; transform: translateY(15px); }
-            20%  { opacity: 1; transform: translateY(0); }
-            75%  { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-15px); }
-        }
+        .footer { position: fixed; bottom: 15px; width: 100%; text-align: center; font-size: 11px; color: #A98B8B; z-index: 10; }
     </style>
 </head>
 <body>
 
-    <!-- 左侧文案区 -->
     <div class="left-content">
-        <div class="paragraph p1">
-            时间过得真快<br>
-            转眼间，我们已经认识很久了<br>
-            还记得<span class="highlight">七年级初识</span>时的模样
+        <!-- 倒计时阶段 -->
+        <div id="normal-greeting">
+            <div class="paragraph" id="p1">时间过得真快<br>转眼间，我们已经认识很久了<br>还记得<span class="highlight">七年级初识</span>时的模样</div>
+            <div class="paragraph" id="p2">如今我们在不同的高中<br>各自在书山题海中<span class="highlight">努力奔跑</span><br>虽然距离远了，但这份情谊历久弥新</div>
+            <div class="paragraph" id="p3">靖琳，提前祝你生日快乐！<br>愿你新的一岁：<br><span class="highlight">身体安康，平安喜乐</span><br><span class="highlight">学业顺利，逢考必过</span></div>
+            <div class="paragraph" id="p4">最重要的是...<br>期待我们在<span class="highlight">理想大学的顶峰相见！</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
         </div>
-        <div class="paragraph p2">
-            如今我们在不同的高中<br>
-            各自在书山题海中<span class="highlight">努力奔跑</span><br>
-            虽然距离远了，但这份情谊历久弥新
-        </div>
-        <div class="paragraph p3">
-            靖琳，提前祝你生日快乐！<br>
-            愿你新的一岁：<br>
-            <span class="highlight">身体安康，平安喜乐</span><br>
-            <span class="highlight">学业顺利，逢考必过</span>
-        </div>
-        <div class="paragraph p4">
-            最重要的是...<br>
-            期待我们在<span class="highlight">理想大学的顶峰相见！</span><br>
-            <span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span>
+
+        <!-- 生日阶段 -->
+        <div id="birthday-greeting" style="display: none;">
+            <div class="b-paragraph" id="b1">靖琳，<span class="highlight">生日快乐。</span><br>人间四月，春意正盛，终于迎来了属于你的这一天。愿所有的温柔都如期而至，化作此刻拂过你发梢的微风。</div>
+            <div class="b-paragraph" id="b2">时光宛如白驹过隙，七年级初识时的青涩仿佛还在昨日。转眼间，我们已各自在书山题海中跋涉。纵然相隔，但那些共同走过的岁月，早已成为我记忆中<span class="highlight">最明媚的星轨</span>。</div>
+            <div class="b-paragraph" id="b3">这崭新的一岁，是晨光熹微，是最清澈的年华。愿你在繁重的学业里，依然有仰望星空的诗意。愿你像一只不知疲倦的飞鸟，飞向那片你一直渴望的、<span class="highlight">广阔无垠的旷野</span>。</div>
+            <div class="b-paragraph" id="b4">岁月漫长，愿你始终做自己宇宙里的主宰。不为世俗所扰，不被烦恼牵绊，岁岁常欢愉。无论前路是坦途还是荆棘，我都会在不远处为你祝祷。</div>
+            <div class="b-paragraph" id="b5">我们约定好了的，要在最耀眼的<span class="highlight">理想大学的顶峰，微笑相见。</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
         </div>
     </div>
 
-    <!-- 右侧倒计时区 -->
     <div class="right-content">
-        <div class="heart-container">
+        <div class="heart-container" id="heart-area">
             <div class="countdown-title" id="title-text">计算中...</div>
-            <div class="countdown-box" id="countdown-display"></div>
+            <div id="countdown-display"></div>
         </div>
     </div>
 
-    <!-- 底部标识 -->
-    <div class="footer">
-        Made with Love by Zhaozhao for Jinglin
-    </div>
+    <div class="footer">Made with Love by Zhaozhao for Jinglin</div>
 
     <script>
-        // --- 1. 智能倒计时逻辑 ---
-        function updateCountdown() {
+        let hasScrolled = false;
+
+        function update() {
             const now = new Date();
-            const currentYear = now.getFullYear();
-            const birthYear = 2010; 
-            
-            const bdayStartStr = `${currentYear}-04-16T00:00:00+08:00`;
-            const bdayEndStr = `${currentYear}-04-21T00:00:00+08:00`; 
+            const year = now.getFullYear();
+            const bStart = new Date(`${year}-04-16T00:00:00+08:00`).getTime();
+            const bEnd = new Date(`${year}-04-21T00:00:00+08:00`).getTime();
+            const curr = now.getTime();
 
-            const bdayStart = new Date(bdayStartStr).getTime();
-            const bdayEnd = new Date(bdayEndStr).getTime();
-            const currentTime = now.getTime();
+            const isBday = (curr >= bStart && curr < bEnd);
+            const target = curr < bStart ? bStart : new Date(`${year + 1}-04-16T00:00:00+08:00`).getTime();
 
-            let targetDate;
-            let isBirthdayWeek = false;
+            document.getElementById('page-title').innerText = isBday ? "靖琳生日快乐！ - Zhaozhao" : "提前祝靖琳生日快乐 - Zhaozhao";
+            document.getElementById('normal-greeting').style.display = isBday ? 'none' : 'block';
+            document.getElementById('birthday-greeting').style.display = isBday ? 'block' : 'none';
 
-            if (currentTime < bdayStart) {
-                targetDate = bdayStart;
-            } else if (currentTime >= bdayStart && currentTime < bdayEnd) {
-                isBirthdayWeek = true;
-            } else {
-                targetDate = new Date(`${currentYear + 1}-04-16T00:00:00+08:00`).getTime();
+            // 首次加载触发手机端自动滚动
+            if (!hasScrolled) {
+                handleAutoScroll(isBday);
+                hasScrolled = true;
             }
 
-            const titleEl = document.getElementById("title-text");
-            const displayEl = document.getElementById("countdown-display");
-
-            if (isBirthdayWeek) {
-                const age = currentYear - birthYear;
-                titleEl.innerHTML = "";
-                displayEl.innerHTML = `
+            if (isBday) {
+                document.getElementById('title-text').innerText = "";
+                document.getElementById('countdown-display').innerHTML = `
                     <div style="text-align: center; animation: fadeIn 1s;">
-                        <div style="font-size: 28px; color:#C2185B; font-weight:bold; margin-bottom: 15px; letter-spacing: 2px;">
-                            🎉 靖琳<span style="font-size:42px; margin: 0 8px; font-family: 'Courier New';">${age}</span>岁了哦！ 🎉
-                        </div>
-                        <div style="font-size: 20px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
+                        <div style="font-size: 26px; color:#C2185B; font-weight:bold; margin-bottom: 15px;">🎉 靖琳<span style="font-size:40px; margin: 0 8px; font-family: 'Courier New';">${year - 2010}</span>岁了哦！ 🎉</div>
+                        <div style="font-size: 18px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
                     </div>`;
             } else {
-                const distance = targetDate - currentTime;
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                titleEl.innerHTML = "距离靖琳的生日还有：";
-                displayEl.innerHTML = `
-                    <span class="number">${days}</span><span class="unit">天</span>
-                    <span class="number">${String(hours).padStart(2, '0')}</span><span class="unit">时</span>
-                    <span class="number">${String(minutes).padStart(2, '0')}</span><span class="unit">分</span>
-                    <span class="number">${String(seconds).padStart(2, '0')}</span><span class="unit">秒</span>
-                `;
+                const diff = target - curr;
+                const d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5), m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
+                document.getElementById('title-text').innerText = "距离靖琳的生日还有：";
+                document.getElementById('countdown-display').innerHTML = `
+                    <div style="display:flex; align-items:baseline; gap:8px; justify-content:center;">
+                        <span class="number">${d}</span><span class="unit">天</span>
+                        <span class="number">${String(h).padStart(2, '0')}</span><span class="unit">时</span>
+                        <span class="number">${String(m).padStart(2, '0')}</span><span class="unit">分</span>
+                        <span class="number">${String(s).padStart(2, '0')}</span><span class="unit">秒</span>
+                    </div>`;
             }
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
 
-        // --- 2. 樱花飘落 ---
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('petal');
-            const size = Math.random() * 10 + 5; 
-            petal.style.width = `${size}px`;
-            petal.style.height = `${size}px`;
-            const startY = -(Math.random() * 150 + 20); 
-            petal.style.top = `${startY}px`;
-            petal.style.left = `${Math.random() * 120 - 10}vw`; 
-            const colors = ['#FFB7C5', '#FFC0CB', '#FF69B4', '#FFF0F5'];
-            petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            const swayX = (Math.random() - 0.5) * 300; 
-            petal.style.setProperty('--sway-x', `${swayX}px`);
-            const duration = Math.random() * 7 + 5; 
-            petal.style.animationDuration = `${duration}s`;
-            document.body.appendChild(petal);
-            setTimeout(() => { petal.remove(); }, duration * 1000);
+        // --- 手机端自动滚动逻辑 ---
+        function handleAutoScroll(isBday) {
+            if (window.innerWidth >= 768) return; // 电脑端不滚动
+
+            const schedule = isBday 
+                ? [ { id: 'b1', time: 500 }, { id: 'b2', time: 3500 }, { id: 'b3', time: 6500 }, { id: 'b4', time: 9500 }, { id: 'b5', time: 12500 }, { id: 'heart-area', time: 15000 } ]
+                : [ { id: 'p1', time: 500 }, { id: 'p2', time: 3000 }, { id: 'p3', time: 5500 }, { id: 'p4', time: 8000 }, { id: 'heart-area', time: 10500 } ];
+
+            schedule.forEach(item => {
+                setTimeout(() => {
+                    const el = document.getElementById(item.id);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, item.time);
+            });
         }
-        setInterval(createPetal, 350);
 
-        // --- 3. 屏幕点击特效 ---
-        document.addEventListener('click', function(e) {
-            const magicElement = document.createElement('div');
-            magicElement.classList.add('click-magic');
-            const symbols = ['❤️', '💖', '✨', '🌸', '💕'];
-            magicElement.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-            magicElement.style.left = `${e.clientX - 12}px`;
-            magicElement.style.top = `${e.clientY - 12}px`;
-            document.body.appendChild(magicElement);
-            setTimeout(() => { magicElement.remove(); }, 1200);
-        });
+        setInterval(update, 1000); update();
 
-        // --- 4. 诗意话语随机淡入淡出引擎（防左侧拥挤算法） ---
-        const poems = [
-            "朝暮与年岁并往，愿与你一同行至天光",
-            "星光不问赶路人，时光不负有心人",
-            "落日归山海，山海藏深意",
-            "长风破浪会有时，直挂云帆济沧海",
-            "愿你以渺小启程，以伟大结束",
-            "凡是过去，皆为序章",
-            "且将新火试新茶，诗酒趁年华",
-            "愿每一次重逢，都如初见般美好",
-            "前路浩浩荡荡，万事皆可期待",
-            "愿你遍历山河，觉得人间值得",
-            "白日不到处，青春恰自来",
-            "心中有丘壑，眉目作山河",
-            "所求皆如愿，所行化坦途",
-            "星河滚烫，你是人间理想",
-            "心之所向，素履以往",
-            "以梦为马，不负韶华"
-        ];
+        // 装饰性元素逻辑 (保持上一版)
+        function petal() {
+            const p = document.createElement('div'); p.className = 'petal';
+            const s = Math.random() * 10 + 5; 
+            Object.assign(p.style, { width: s + 'px', height: s + 'px', left: Math.random() * 100 + 'vw', top: '-5vh', backgroundColor: ['#FFB7C5', '#FFC0CB', '#FF69B4'][Math.floor(Math.random() * 3)], animationDuration: Math.random() * 5 + 5 + 's' });
+            p.style.setProperty('--sway-x', (Math.random() - 0.5) * 200 + 'px');
+            document.body.appendChild(p); setTimeout(() => p.remove(), 8000);
+        }
+        setInterval(petal, 350);
 
-        // 为区域编号：0和1都在最左侧
-        const safeZones = [
-            { id: 0, type: 'left',  pos: '5%',   top: '10%' },  // 0: 左上
-            { id: 1, type: 'left',  pos: '5%',   top: '55%' },  // 1: 左下
-            { id: 2, type: 'right', pos: '5%',   top: '10%' },  // 2: 右上
-            { id: 3, type: 'right', pos: '5%',   top: '60%' },  // 3: 右下
-            { id: 4, type: 'left',  pos: '38%',  top: '5%' },   // 4: 中上
-            { id: 5, type: 'right', pos: '38%',  top: '80%' }   // 5: 中下
-        ];
-
-        let activePoems = [];
-        let activeZones = [];
-
-        function spawnSinglePoem() {
-            let poemText;
-            do {
-                poemText = poems[Math.floor(Math.random() * poems.length)];
-            } while (activePoems.includes(poemText));
-
-            let zoneIndex;
-            let conflict;
-            do {
-                conflict = false;
-                zoneIndex = Math.floor(Math.random() * safeZones.length);
-                
-                if (activeZones.includes(zoneIndex)) {
-                    conflict = true;
-                    continue;
-                }
-                if (zoneIndex === 0 && activeZones.includes(1)) conflict = true;
-                if (zoneIndex === 1 && activeZones.includes(0)) conflict = true;
-                
-            } while (conflict);
-
-            activePoems.push(poemText);
-            activeZones.push(zoneIndex);
-
-            const zone = safeZones[zoneIndex];
-            const poemEl = document.createElement('div');
-            poemEl.classList.add('dynamic-poem');
-            poemEl.innerText = poemText;
-            
-            const offset = (Math.random() * 4 - 2) + '%';
-            if (zone.type === 'left') {
-                poemEl.style.left = `calc(${zone.pos} + ${offset})`;
+        const poems = ["星光不问赶路人", "凡是过去，皆为序章", "且将新火试新茶", "心之所向，素履以往", "以梦为马，不负韶华", "朝暮与年岁并往", "遍历山河，人间值得"];
+        function spawnPoem() {
+            const p = document.createElement('div'); p.className = 'dynamic-poem';
+            p.innerText = poems[Math.floor(Math.random() * poems.length)];
+            const side = Math.random() > 0.5;
+            if (window.innerWidth < 768) {
+                const safePos = side ? (Math.random() * 5 + 3) : (92 - Math.random() * 5);
+                p.style.left = safePos + '%';
             } else {
-                poemEl.style.right = `calc(${zone.pos} + ${offset})`;
+                Object.assign(p.style, { [side ? 'left' : 'right']: '5%' });
             }
-            poemEl.style.top = `calc(${zone.top} + ${offset})`;
-
-            document.body.appendChild(poemEl);
-
-            setTimeout(() => {
-                poemEl.remove();
-                activePoems = activePoems.filter(p => p !== poemText);
-                activeZones = activeZones.filter(z => z !== zoneIndex);
-                spawnSinglePoem();
-            }, 7000); 
+            p.style.top = Math.random() * 70 + 10 + '%';
+            document.body.appendChild(p); setTimeout(() => p.remove(), 7000);
         }
+        setInterval(spawnPoem, 4000);
 
-        setTimeout(spawnSinglePoem, 500);   
-        setTimeout(spawnSinglePoem, 2500);  
-        setTimeout(spawnSinglePoem, 4500);  
-
+        document.addEventListener('click', (e) => {
+            const m = document.createElement('div'); m.className = 'click-magic';
+            m.innerText = ['❤️', '💖', '✨', '🌸'][Math.floor(Math.random() * 4)];
+            Object.assign(m.style, { left: e.clientX - 12 + 'px', top: e.clientY - 12 + 'px' });
+            document.body.appendChild(m); setTimeout(() => m.remove(), 1200);
+        });
     </script>
 </body>
 </html>
