@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提前祝靖琳生日快乐 - Zhaozhao</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title id="page-title">提前祝靖琳生日快乐 - Zhaozhao</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    
     <style>
         /* 全局样式 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
@@ -24,22 +26,22 @@
             cursor: default;
         }
 
-        /* ---------------- 左侧文字区域 ---------------- */
+        /* ---------------- 左侧祝福语区域 ---------------- */
         .left-content {
             flex: 1;
-            padding: 10% 8%;
+            padding: 6% 8%; /* 稍微减小上下内边距，容纳更多文字 */
             display: flex;
             flex-direction: column;
             justify-content: center;
             z-index: 10;
         }
 
+        /* 倒计时期间的动态祝福语段落样式 */
         .paragraph {
             margin-bottom: 25px;
             line-height: 1.8;
             font-size: 17px;
             opacity: 0;
-            /* 淡入动画缩短至2秒，浮现得更干脆 */
             animation: fadeIn 2s ease-in-out forwards;
             transition: transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
         }
@@ -51,20 +53,52 @@
             cursor: pointer;
         }
 
-        /* --- 核心修改：大幅缩短出现间隔时间，每段间隔 2.5 秒 --- */
-        .p1 { animation-delay: 0.5s; }   /* 打开网页瞬间开始出第一段 */
-        .p2 { animation-delay: 3.0s; }   /* 距离上一段 2.5秒 */
-        .p3 { animation-delay: 5.5s; }   /* 距离上一段 2.5秒 */
+        .p1 { animation-delay: 0.5s; }
+        .p2 { animation-delay: 3.0s; }
+        .p3 { animation-delay: 5.5s; }
         .p4 { 
-            animation-delay: 8.0s;       /* 距离上一段 2.5秒，压轴出现 */
+            animation-delay: 8.0s;
             border-top: 1px solid rgba(194, 24, 91, 0.2); 
             padding-top: 15px; 
             margin-top: 10px;
         }
 
-        .highlight { color: #D81B60; font-weight: bold; }
+        /* --- 全新的生日长文样式 --- */
+        .birthday-message-static {
+            display: none; 
+            flex-direction: column;
+        }
+        
+        .birthday-message-static p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 16px; /* 字号微调，使长文排版更优雅 */
+            opacity: 0;
+            animation: fadeIn 2.5s ease-in-out forwards;
+            transition: transform 0.4s ease, color 0.4s ease;
+        }
 
-        /* ---------------- 右侧爱心倒计时区域 ---------------- */
+        .birthday-message-static p:hover {
+            transform: translateX(10px);
+            color: #C2185B;
+            cursor: pointer;
+        }
+
+        /* 生日长文依次浮现的时间轴 */
+        .b-p1 { animation-delay: 0.5s; }
+        .b-p2 { animation-delay: 3.0s; }
+        .b-p3 { animation-delay: 6.0s; }
+        .b-p4 { animation-delay: 9.0s; }
+        .b-p5 { 
+            animation-delay: 12.0s; 
+            margin-top: 15px;
+            border-top: 1px solid rgba(194, 24, 91, 0.2);
+            padding-top: 15px;
+        }
+
+        .highlight { color: #D81B60; font-weight: bold; position: relative; }
+
+        /* ---------------- 右侧区域 ---------------- */
         .right-content {
             flex: 1.5;
             display: flex;
@@ -113,6 +147,27 @@
 
         .unit { font-size: 16px; margin-right: 15px; font-weight: bold; }
 
+        .bday-message-display {
+            text-align: center; 
+            animation: fadeIn 1s;
+        }
+        .bday-message-main {
+            font-size: 28px; 
+            color:#C2185B; 
+            font-weight:bold; 
+            margin-bottom: 15px; 
+            letter-spacing: 2px;
+        }
+        .bday-message-age {
+            font-size:42px; 
+            margin: 0 8px; 
+            font-family: 'Courier New';
+        }
+        .bday-message-sub {
+            font-size: 20px; 
+            color:#7A4B4B;
+        }
+
         .footer {
             position: absolute;
             bottom: 20px;
@@ -123,7 +178,6 @@
             z-index: 10;
         }
 
-        /* ---------------- 动画特效区 ---------------- */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -134,7 +188,6 @@
             100% { transform: scale(1.02); opacity: 1; }
         }
 
-        /* 花瓣飘落 */
         .petal {
             position: absolute;
             border-radius: 15px 0 15px 0;
@@ -164,7 +217,6 @@
             100% { transform: translateY(-80px) scale(1) rotate(-15deg); opacity: 0; }
         }
 
-        /* ---------------- 动态诗句专属样式 ---------------- */
         .dynamic-poem {
             position: absolute;
             font-size: 15px;
@@ -189,34 +241,71 @@
 
     <!-- 左侧文案区 -->
     <div class="left-content">
-        <div class="paragraph p1">
-            时间过得真快<br>
-            转眼间，我们已经认识很久了<br>
-            还记得<span class="highlight">七年级初识</span>时的模样
+        <!-- 倒计时期间显示的简短祝福 -->
+        <div id="normal-greeting-content">
+            <div class="paragraph p1">
+                时间过得真快<br>
+                转眼间，我们已经认识很久了<br>
+                还记得<span class="highlight">七年级初识</span>时的模样
+            </div>
+            <div class="paragraph p2">
+                如今我们在不同的高中<br>
+                各自在书山题海中<span class="highlight">努力奔跑</span><br>
+                虽然距离远了，但这份情谊历久弥新
+            </div>
+            <div class="paragraph p3">
+                靖琳，提前祝你生日快乐！<br>
+                愿你新的一岁：<br>
+                <span class="highlight">身体安康，平安喜乐</span><br>
+                <span class="highlight">学业顺利，逢考必过</span>
+            </div>
+            <div class="paragraph p4">
+                最重要的是...<br>
+                期待我们在<span class="highlight">理想大学的顶峰相见！</span><br>
+                <span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span>
+            </div>
         </div>
-        <div class="paragraph p2">
-            如今我们在不同的高中<br>
-            各自在书山题海中<span class="highlight">努力奔跑</span><br>
-            虽然距离远了，但这份情谊历久弥新
-        </div>
-        <div class="paragraph p3">
-            靖琳，提前祝你生日快乐！<br>
-            愿你新的一岁：<br>
-            <span class="highlight">身体安康，平安喜乐</span><br>
-            <span class="highlight">学业顺利，逢考必过</span>
-        </div>
-        <div class="paragraph p4">
-            最重要的是...<br>
-            期待我们在<span class="highlight">理想大学的顶峰相见！</span><br>
-            <span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span>
+
+        <!-- 生日周内显示的诗意长文 -->
+        <div id="birthday-greeting-content" class="birthday-message-static">
+            <p class="b-p1">
+                靖琳，<span class="highlight">生日快乐。</span><br>
+                人间四月，春意正盛，终于迎来了属于你的这一天。<br>
+                愿所有的美好与温柔，都如期而至，化作此刻拂过你发梢的微风。
+            </p>
+            <p class="b-p2">
+                时光宛如白驹过隙，七年级初识时的青涩仿佛还在昨日。<br>
+                转眼间，我们已各自在书山题海中，为了心中的远方跋涉。<br>
+                纵然相隔于不同的校园，但那些共同走过的岁月，<br>
+                早已成为我记忆中<span class="highlight">最明媚的星轨</span>，熠熠生辉。
+            </p>
+            <p class="b-p3">
+                这崭新的一岁，是晨光熹微，是最热烈也最清澈的年华。<br>
+                愿你在繁重的学业里，依然有仰望星空的诗意，和脚踏实地的坚定。<br>
+                愿你像一只不知疲倦的飞鸟，勇敢地越过重重山峦，<br>
+                飞向那片你一直渴望的、<span class="highlight">广阔无垠的旷野</span>。
+            </p>
+            <p class="b-p4">
+                岁月漫长，愿你始终做自己宇宙里的主宰。<br>
+                不为世俗所扰，不被烦恼牵绊，岁岁常欢愉，万事皆胜意。<br>
+                无论前路是坦途还是荆棘，我都会在不远处为你祝祷。<br>
+                带着你的梦想与骄傲，继续奔跑吧——
+            </p>
+            <p class="b-p5">
+                我们约定好了的，<br>
+                要在最耀眼的<span class="highlight">理想大学的顶峰，微笑相见。</span><br>
+                <span style="display:block; margin-top: 12px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span>
+            </p>
         </div>
     </div>
 
-    <!-- 右侧倒计时区 -->
+    <!-- 右侧动态时间区 -->
     <div class="right-content">
         <div class="heart-container">
-            <div class="countdown-title" id="title-text">计算中...</div>
-            <div class="countdown-box" id="countdown-display"></div>
+            <div id="dynamic-time-content">
+                <div class="countdown-title" id="title-text">计算中...</div>
+                <div class="countdown-box" id="countdown-display"></div>
+            </div>
         </div>
     </div>
 
@@ -252,18 +341,29 @@
 
             const titleEl = document.getElementById("title-text");
             const displayEl = document.getElementById("countdown-display");
+            const pageTitleEl = document.getElementById("page-title");
+            const normalGreetingDiv = document.getElementById("normal-greeting-content");
+            const birthdayGreetingDiv = document.getElementById("birthday-greeting-content");
 
             if (isBirthdayWeek) {
                 const age = currentYear - birthYear;
-                titleEl.innerHTML = "";
+                pageTitleEl.innerText = "靖琳生日快乐！ - Zhaozhao";
+                normalGreetingDiv.style.display = 'none';
+                birthdayGreetingDiv.style.display = 'flex'; 
+
+                titleEl.innerHTML = ""; 
                 displayEl.innerHTML = `
-                    <div style="text-align: center; animation: fadeIn 1s;">
-                        <div style="font-size: 28px; color:#C2185B; font-weight:bold; margin-bottom: 15px; letter-spacing: 2px;">
-                            🎉 靖琳<span style="font-size:42px; margin: 0 8px; font-family: 'Courier New';">${age}</span>岁了哦！ 🎉
+                    <div class="bday-message-display">
+                        <div class="bday-message-main">
+                            🎉 靖琳<span class="bday-message-age">${age}</span>岁了哦！ 🎉
                         </div>
-                        <div style="font-size: 20px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
+                        <div class="bday-message-sub">祝你生日快乐~ 愿你岁岁常欢愉！</div>
                     </div>`;
             } else {
+                pageTitleEl.innerText = "提前祝靖琳生日快乐 - Zhaozhao";
+                normalGreetingDiv.style.display = 'flex'; 
+                birthdayGreetingDiv.style.display = 'none';
+
                 const distance = targetDate - currentTime;
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -280,7 +380,7 @@
             }
         }
         setInterval(updateCountdown, 1000);
-        updateCountdown();
+        updateCountdown(); 
 
         // --- 2. 樱花飘落 ---
         function createPetal() {
@@ -315,7 +415,7 @@
             setTimeout(() => { magicElement.remove(); }, 1200);
         });
 
-        // --- 4. 诗意话语随机淡入淡出引擎（防左侧拥挤算法） ---
+        // --- 4. 诗意话语随机淡入淡出 ---
         const poems = [
             "朝暮与年岁并往，愿与你一同行至天光",
             "星光不问赶路人，时光不负有心人",
@@ -335,14 +435,13 @@
             "以梦为马，不负韶华"
         ];
 
-        // 为区域编号：0和1都在最左侧
         const safeZones = [
-            { id: 0, type: 'left',  pos: '5%',   top: '10%' },  // 0: 左上
-            { id: 1, type: 'left',  pos: '5%',   top: '55%' },  // 1: 左下
-            { id: 2, type: 'right', pos: '5%',   top: '10%' },  // 2: 右上
-            { id: 3, type: 'right', pos: '5%',   top: '60%' },  // 3: 右下
-            { id: 4, type: 'left',  pos: '38%',  top: '5%' },   // 4: 中上
-            { id: 5, type: 'right', pos: '38%',  top: '80%' }   // 5: 中下
+            { id: 0, type: 'left',  pos: '5%',   top: '10%' },  
+            { id: 1, type: 'left',  pos: '5%',   top: '55%' },  
+            { id: 2, type: 'right', pos: '5%',   top: '10%' },  
+            { id: 3, type: 'right', pos: '5%',   top: '60%' },  
+            { id: 4, type: 'left',  pos: '38%',  top: '5%' },   
+            { id: 5, type: 'right', pos: '38%',  top: '80%' }   
         ];
 
         let activePoems = [];
