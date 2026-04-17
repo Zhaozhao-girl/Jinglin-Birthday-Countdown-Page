@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; } /* 全局柔和滚动 */
 
         body {
             margin: 0; padding: 0;
@@ -30,16 +30,16 @@
 
         .paragraph, .b-paragraph {
             margin-bottom: 30px; line-height: 1.8; font-size: 17px; opacity: 0;
-            animation: fadeIn 2s ease-in-out forwards;
+            animation: fadeIn 2.5s ease-in-out forwards; /* 变慢淡入 */
             position: relative;
         }
 
-        /* 动画延迟时间 */
+        /* 动画延迟时间轴 */
         #p1, #b1 { animation-delay: 0.5s; }
-        #p2, #b2 { animation-delay: 3.5s; }
-        #p3, #b3 { animation-delay: 6.5s; }
-        #p4, #b4 { animation-delay: 9.5s; }
-        #b5 { animation-delay: 12.5s; }
+        #p2, #b2 { animation-delay: 4.0s; }
+        #p3, #b3 { animation-delay: 7.5s; }
+        #p4, #b4 { animation-delay: 11.0s; }
+        #b5 { animation-delay: 14.5s; }
 
         .line-sep { border-top: 1px solid rgba(194, 24, 91, 0.2); padding-top: 15px; margin-top: 10px; }
         .highlight { color: #D81B60; font-weight: bold; }
@@ -60,32 +60,33 @@
         .number { font-size: 48px; font-weight: bold; color: #C2185B; font-family: 'Courier New', monospace; }
         .unit { font-size: 14px; margin-right: 10px; font-weight: bold; }
 
-        /* ---------------- 手机端紧凑布局 ---------------- */
+        /* ---------------- 生日当天的渐显效果 ---------------- */
+        #countdown-display.final-reveal {
+            opacity: 0;
+            animation: finalFadeIn 2.5s ease-in-out forwards;
+        }
+        @keyframes finalFadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* ---------------- 手机端排版 ---------------- */
         @media (max-width: 768px) {
             body { flex-direction: column; height: auto; min-height: 100vh; overflow-y: scroll; }
             .left-content { 
                 flex: none; width: 100%; 
-                padding: 100px 12% 20px 12%; /* 减小底部间距使其与倒计时连接 */
+                padding: 120px 12% 20px 12%; 
                 text-align: center; 
             }
             .right-content { 
                 flex: none; width: 100%; 
-                padding: 40px 0 20px 0; /* 紧接上方祝福语 */
+                padding: 60px 0 40px 0; 
             }
             .heart-container { width: 85vw; height: 85vw; margin: 0 auto; }
             .number { font-size: 32px; }
-            .countdown-title { font-size: 18px; }
-            .paragraph, .b-paragraph { font-size: 15px; margin-bottom: 35px; }
-
-            .dynamic-poem { 
-                font-size: 12px !important; 
-                color: rgba(194, 24, 91, 0.12) !important; 
-                z-index: 1 !important; 
-            }
-
-            .footer { position: relative; bottom: auto; padding: 40px 0 60px 0; }
+            .paragraph, .b-paragraph { font-size: 15px; margin-bottom: 40px; }
+            .dynamic-poem { font-size: 12px !important; color: rgba(194, 24, 91, 0.12) !important; z-index: 1 !important; }
+            .footer { position: relative; bottom: auto; padding: 40px 0 80px 0; }
         }
 
+        /* ---------------- 动画特效 ---------------- */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0% { transform: scale(0.98); } 100% { transform: scale(1.02); } }
 
@@ -95,18 +96,17 @@
         .click-magic { position: absolute; font-size: 24px; pointer-events: none; z-index: 9999; animation: floatUp 1.2s forwards; }
         @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-80px) scale(1); opacity: 0; } }
 
-        .dynamic-poem { position: absolute; font-size: 15px; color: rgba(194, 24, 91, 0.4); writing-mode: vertical-rl; letter-spacing: 4px; z-index: 5; animation: poemFade 7s forwards; }
+        .dynamic-poem { position: absolute; font-size: 15px; color: rgba(194, 24, 91, 0.35); writing-mode: vertical-rl; letter-spacing: 4px; z-index: 5; animation: poemFade 7s forwards; }
         @keyframes poemFade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
-        /* 电脑端页脚固定，手机端随流排版 */
-        .footer { width: 100%; text-align: center; font-size: 11px; color: #A98B8B; z-index: 20; }
+        /* 页脚配置 */
+        .footer { width: 100%; text-align: center; font-size: 11px; color: #A98B8B; z-index: 20; font-style: italic; }
         @media (min-width: 769px) { .footer { position: fixed; bottom: 20px; } }
     </style>
 </head>
 <body>
 
     <div class="left-content">
-        <!-- 倒计时模式内容 -->
         <div id="normal-greeting">
             <div class="paragraph" id="p1">时间过得真快<br>转眼间，我们已经认识很久了<br>还记得<span class="highlight">七年级初识</span>时的模样</div>
             <div class="paragraph" id="p2">如今我们在不同的高中<br>各自在书山题海中<span class="highlight">努力奔跑</span><br>虽然距离远了，但这份情谊历久弥新</div>
@@ -114,7 +114,6 @@
             <div class="paragraph line-sep" id="p4">最重要的是...<br>期待我们在<span class="highlight">理想大学的顶峰相见！</span><br><span style="display:inline-block; margin-top: 15px; font-weight: bold; color: #C2185B;">-- 挚爱你的：Zhaozhao</span></div>
         </div>
 
-        <!-- 生日模式内容 -->
         <div id="birthday-greeting" style="display: none;">
             <div class="b-paragraph" id="b1">靖琳，<span class="highlight">生日快乐。</span><br>人间四月，春意正盛，终于迎来了属于你的这一天。愿所有的温柔都如期而至，化作此刻拂过你发梢的微风。</div>
             <div class="b-paragraph" id="b2">时光宛如白驹过隙，七年级初识时的青涩仿佛还在昨日。转眼间，我们已各自在书山题海中跋涉。纵然相隔，但那些共同走过的岁月，早已成为我记忆中<span class="highlight">最明媚的星轨</span>。</div>
@@ -126,15 +125,16 @@
 
     <div class="right-content">
         <div class="heart-container" id="heart-area">
-            <div class="countdown-title" id="title-text">计算中...</div>
+            <div class="countdown-title" id="title-text"></div>
             <div id="countdown-display"></div>
         </div>
     </div>
 
-    <div class="footer">Made with Love by Zhaozhao for Jinglin</div>
+    <div class="footer">Made by Love for Ariel</div>
 
     <script>
         let autoScrollTasks = []; 
+        let lastState = ""; 
 
         function update() {
             const now = new Date();
@@ -144,27 +144,37 @@
             const curr = now.getTime();
 
             const isBday = (curr >= bStart && curr < bEnd);
-            const target = curr < bStart ? bStart : new Date(`${year + 1}-04-16T00:00:00+08:00`).getTime();
+            const currentState = isBday ? "BDAY" : "COUNTDOWN";
 
-            document.getElementById('page-title').innerText = isBday ? "靖琳生日快乐！ - Zhaozhao" : "提前祝靖琳生日快乐 - Zhaozhao";
-            document.getElementById('normal-greeting').style.display = isBday ? 'none' : 'block';
-            document.getElementById('birthday-greeting').style.display = isBday ? 'block' : 'none';
-
-            if (autoScrollTasks.length === 0) {
-                handleAutoScroll(isBday);
+            if (currentState !== lastState) {
+                document.getElementById('page-title').innerText = isBday ? "靖琳生日快乐！ - Zhaozhao" : "提前祝靖琳生日快乐 - Zhaozhao";
+                document.getElementById('normal-greeting').style.display = isBday ? 'none' : 'block';
+                document.getElementById('birthday-greeting').style.display = isBday ? 'block' : 'none';
+                
+                const displayArea = document.getElementById('countdown-display');
+                if (isBday) {
+                    document.getElementById('title-text').innerText = "";
+                    // 生日当天内容初始不显示，等待滚动到达
+                    displayArea.classList.remove('final-reveal');
+                    displayArea.innerHTML = `
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; color:#C2185B; font-weight:bold; margin-bottom: 15px;">🎉 靖琳<span style="font-size:40px; margin: 0 8px; font-family: 'Courier New';">${year - 2010}</span>岁了哦！ 🎉</div>
+                            <div style="font-size: 18px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
+                        </div>`;
+                } else {
+                    document.getElementById('title-text').innerText = "距离靖琳的生日还有：";
+                }
+                
+                if (lastState === "" && window.innerWidth < 768) {
+                    handleAutoScroll(isBday);
+                }
+                lastState = currentState;
             }
 
-            if (isBday) {
-                document.getElementById('title-text').innerText = "";
-                document.getElementById('countdown-display').innerHTML = `
-                    <div style="text-align: center; animation: fadeIn 1s;">
-                        <div style="font-size: 24px; color:#C2185B; font-weight:bold; margin-bottom: 15px;">🎉 靖琳<span style="font-size:38px; margin: 0 8px; font-family: 'Courier New';">${year - 2010}</span>岁了哦！ 🎉</div>
-                        <div style="font-size: 18px; color:#7A4B4B;">祝你生日快乐~ 愿你岁岁常欢愉！</div>
-                    </div>`;
-            } else {
+            if (!isBday) {
+                const target = curr < bStart ? bStart : new Date(`${year + 1}-04-16T00:00:00+08:00`).getTime();
                 const diff = target - curr;
                 const d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5), m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
-                document.getElementById('title-text').innerText = "距离靖琳的生日还有：";
                 document.getElementById('countdown-display').innerHTML = `
                     <div style="display:flex; align-items:baseline; gap:8px; justify-content:center;">
                         <span class="number">${d}</span><span class="unit">天</span>
@@ -177,17 +187,19 @@
 
         function handleAutoScroll(isBday) {
             if (window.innerWidth >= 768) return;
+
             const steps = isBday 
-                ? [ {id:'b1',t:500},{id:'b2',t:3500},{id:'b3',t:6500},{id:'b4',t:9500},{id:'b5',t:12500},{id:'heart-area',t:15000} ]
-                : [ {id:'p1',t:500},{id:'p2',t:3500},{id:'p3',t:6500},{id:'p4',t:9500},{id:'heart-area',t:11500} ];
+                ? [ {id:'b1',t:500},{id:'b2',t:4500},{id:'b3',t:8500},{id:'b4',t:12500},{id:'b5',t:16500},{id:'heart-area',t:19000} ]
+                : [ {id:'p1',t:500},{id:'p2',t:4000},{id:'p3',t:8000},{id:'p4',t:12000},{id:'heart-area',t:14500} ];
             
             steps.forEach(s => {
                 let task = setTimeout(() => {
                     const el = document.getElementById(s.id);
-                    if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                    
+                    // 当滚动到爱心区域时，触发祝福语淡入
                     if (s.id === 'heart-area') {
+                        document.getElementById('countdown-display').classList.add('final-reveal');
                         autoScrollTasks.forEach(clearTimeout);
                     }
                 }, s.t);
